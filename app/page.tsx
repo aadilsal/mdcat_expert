@@ -1,18 +1,95 @@
-import Link from 'next/link'
-import { Button } from '@/components/ui/button'
+// ============================================================================
+// Landing Page - mdcatExpert
+// ============================================================================
+// Modern, high-conversion landing page with all sections
+// ============================================================================
 
-export default function Home() {
+import { Navbar } from '@/components/shared/Navbar'
+import { Hero } from '@/components/landing/Hero'
+import { Features } from '@/components/landing/Features'
+import { Testimonials } from '@/components/landing/Testimonials'
+import { Pricing } from '@/components/landing/Pricing'
+import { FAQ } from '@/components/landing/FAQ'
+import { CTASection } from '@/components/landing/CTASection'
+import { ContactForm } from '@/components/landing/ContactForm'
+import Footer from '@/components/shared/Footer'
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'mdcatExpert - Ace Your MDCAT with AI-Powered Practice',
+  description:
+    'Master MDCAT with 10,000+ practice questions, AI-powered adaptive quizzes, detailed analytics, and real-time leaderboards. 100% free for students. Join 5,000+ successful MDCAT aspirants.',
+  keywords: [
+    'MDCAT',
+    'MDCAT preparation',
+    'MDCAT practice',
+    'medical college admission test',
+    'MDCAT quizzes',
+    'MDCAT questions',
+    'Pakistan medical entrance',
+  ],
+  openGraph: {
+    title: 'mdcatExpert - Ace Your MDCAT with AI-Powered Practice',
+    description:
+      'Master MDCAT with 10,000+ practice questions, AI-powered quizzes, and detailed analytics. 100% free for students.',
+    type: 'website',
+    url: 'https://mdcatexpert.com',
+    images: [
+      {
+        url: '/og-image.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'mdcatExpert - MDCAT Preparation Platform',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'mdcatExpert - Ace Your MDCAT with AI-Powered Practice',
+    description:
+      'Master MDCAT with 10,000+ practice questions and AI-powered quizzes. 100% free for students.',
+    images: ['/og-image.jpg'],
+  },
+}
+
+export default function LandingPage() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center p-24">
-      <h1 className="text-4xl font-bold mb-8">Welcome to mdcatExpert</h1>
-      <div className="flex gap-4">
-        <Link href="/login">
-          <Button>Login</Button>
-        </Link>
-        <Link href="/register">
-          <Button variant="outline">Register</Button>
-        </Link>
-      </div>
+    <main className="min-h-screen">
+      <Navbar />
+      <Hero />
+      <Features />
+
+      {/* Mid-page CTA */}
+      <CTASection
+        title="Ready to Start Your MDCAT Journey?"
+        description="Join thousands of students who are already preparing smarter with mdcatExpert. Get started today - it's completely free!"
+        primaryCTA={{
+          text: 'Start Practicing Now',
+          href: '/register',
+        }}
+        secondaryCTA={{
+          text: 'Explore Features',
+          href: '#features',
+        }}
+      />
+
+      <Testimonials />
+      <Pricing />
+      <FAQ />
+      <ContactForm />
+
+      {/* Final CTA */}
+      <CTASection
+        title="Your Medical School Journey Starts Here"
+        description="Don't let MDCAT preparation overwhelm you. Start practicing with mdcatExpert today and join the ranks of successful medical students."
+        primaryCTA={{
+          text: 'Get Started Free',
+          href: '/register',
+        }}
+        variant="secondary"
+      />
+
+      <Footer />
     </main>
   )
 }

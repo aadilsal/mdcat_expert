@@ -90,7 +90,7 @@ export function Hero() {
                                 <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
                             </Button>
                         </Link>
-                        <Button size="lg" variant="outline" className="text-lg px-8 py-6 group">
+                        <Button size="lg" variant="secondary" className="text-lg px-8 py-6 group">
                             <Play className="mr-2 group-hover:scale-110 transition-transform" size={20} />
                             Watch Demo
                         </Button>

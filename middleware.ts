@@ -1,6 +1,13 @@
+// ============================================================================
+// Enhanced Middleware - Route Protection & Authentication
+// ============================================================================
+// Protects routes based on authentication status, email verification, and roles
+// ============================================================================
+
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
+import { AUTH_CONFIG } from './lib/auth/config'
 
 export async function middleware(req: NextRequest) {
     let supabaseResponse = NextResponse.next({
@@ -32,32 +39,53 @@ export async function middleware(req: NextRequest) {
         data: { session },
     } = await supabase.auth.getSession()
 
+    const path = req.nextUrl.pathname
+
+    // Public routes that don't require authentication
+    const publicRoutes = ['/', '/login', '/register', '/forgot-password', '/reset-password', '/auth/callback']
+    const isPublicRoute = publicRoutes.some(route => path === route || path.startsWith('/auth/'))
+
     // Protected routes that require authentication
-    if (req.nextUrl.pathname.startsWith('/dashboard') ||
-        req.nextUrl.pathname.startsWith('/quiz') ||
-        req.nextUrl.pathname.startsWith('/profile') ||
-        req.nextUrl.pathname.startsWith('/admin')) {
-        if (!session) {
-            return NextResponse.redirect(new URL('/login', req.url))
-        }
+    const protectedRoutes = ['/dashboard', '/quiz', '/profile', '/leaderboard', '/admin']
+    const isProtectedRoute = protectedRoutes.some(route => path.startsWith(route))
 
-        // Admin-only routes
-        if (req.nextUrl.pathname.startsWith('/admin')) {
-            const { data: user } = await supabase
-                .from('users')
-                .select('role')
-                .eq('id', session.user.id)
-                .single()
+    // Admin-only routes
+    const isAdminRoute = path.startsWith('/admin')
 
-            if (user?.role !== 'admin') {
-                return NextResponse.redirect(new URL('/dashboard', req.url))
-            }
-        }
+    // If accessing auth pages while logged in, redirect to dashboard
+    if (session && (path === '/login' || path === '/register')) {
+        return NextResponse.redirect(new URL(AUTH_CONFIG.redirects.afterLogin, req.url))
     }
 
-    // Redirect to dashboard if already logged in and trying to access auth pages
-    if ((req.nextUrl.pathname === '/login' || req.nextUrl.pathname === '/register') && session) {
-        return NextResponse.redirect(new URL('/dashboard', req.url))
+    // If accessing protected route without authentication, redirect to login
+    if (isProtectedRoute && !session) {
+        const redirectUrl = new URL(AUTH_CONFIG.redirects.unauthenticated, req.url)
+        redirectUrl.searchParams.set('redirect', path)
+        return NextResponse.redirect(redirectUrl)
+    }
+
+    // Check email verification for protected routes
+    if (
+        isProtectedRoute &&
+        session &&
+        AUTH_CONFIG.emailVerification.required &&
+        !session.user.email_confirmed_at &&
+        path !== '/verify-email'
+    ) {
+        return NextResponse.redirect(new URL('/verify-email', req.url))
+    }
+
+    // Check admin role for admin routes
+    if (isAdminRoute && session) {
+        const { data: user } = await supabase
+            .from('users')
+            .select('role')
+            .eq('id', session.user.id)
+            .single()
+
+        if (user?.role !== 'admin') {
+            return NextResponse.redirect(new URL(AUTH_CONFIG.redirects.unauthorized, req.url))
+        }
     }
 
     return supabaseResponse

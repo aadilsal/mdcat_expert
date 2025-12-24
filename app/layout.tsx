@@ -1,25 +1,27 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
+import { AuthProvider } from '@/components/auth/AuthProvider'
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-inter',
+})
 
 export const metadata: Metadata = {
   title: 'mdcatExpert - MDCAT Quiz Platform',
-  description: 'Prepare for MDCAT with AI-powered quizzes and explanations',
+  description: 'Comprehensive MDCAT preparation platform with AI-powered features',
 }
 
 export default function RootLayout({
   children,
-}: {
+}: Readonly<{
   children: React.ReactNode
-}) {
+}>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={inter.className}>
-        <div className="min-h-screen flex flex-col">
-          {children}
-        </div>
+    <html lang="en">
+      <body className={`${inter.variable} font-sans antialiased min-h-screen flex flex-col`}>
+        <AuthProvider>{children}</AuthProvider>
       </body>
     </html>
   )

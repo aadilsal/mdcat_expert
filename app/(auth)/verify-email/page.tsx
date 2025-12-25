@@ -110,8 +110,8 @@ export default function VerifyEmailPage() {
                 {resendMessage && (
                     <div
                         className={`rounded-md p-4 ${resendMessage.includes('sent')
-                                ? 'bg-green-50 text-green-800'
-                                : 'bg-red-50 text-red-800'
+                            ? 'bg-green-50 text-green-800'
+                            : 'bg-red-50 text-red-800'
                             }`}
                     >
                         <p className="text-sm">{resendMessage}</p>
@@ -122,13 +122,12 @@ export default function VerifyEmailPage() {
                     <Button
                         onClick={handleResend}
                         disabled={isResending}
-                        variant="outline"
-                        className="w-full"
+                        className="w-full bg-purple-600 hover:bg-purple-700 text-white"
                     >
                         {isResending ? 'Sending...' : 'Resend verification email'}
                     </Button>
 
-                    <Button onClick={() => router.push('/login')} variant="ghost" className="w-full">
+                    <Button onClick={() => router.push('/login')} variant="outline" className="w-full bg-white border-2 border-gray-800 text-gray-800 hover:bg-gray-50">
                         Back to login
                     </Button>
                 </div>

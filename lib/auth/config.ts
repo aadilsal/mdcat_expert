@@ -24,16 +24,16 @@ export const AUTH_CONFIG = {
     redirects: {
         afterLogin: '/dashboard',
         afterLogout: '/login',
-        afterSignup: '/verify-email',
+        afterSignup: '/dashboard', // Changed from /verify-email since OTP verification happens during registration
         afterPasswordReset: '/login',
         unauthenticated: '/login',
         unauthorized: '/access-denied',
     },
 
-    // Email verification
+    // Email verification - DISABLED for better conversion
     emailVerification: {
-        required: true,
-        allowUnverifiedAccess: false,
+        required: false,
+        allowUnverifiedAccess: true,
     },
 
     // Rate limiting (handled by Supabase)

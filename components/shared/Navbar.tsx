@@ -81,8 +81,7 @@ export function Navbar() {
 
     return (
         <motion.header
-            className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? 'bg-white/95 backdrop-blur-sm shadow-md' : 'bg-transparent'
-                }`}
+            className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-white/95 backdrop-blur-sm shadow-md`}
             initial={{ y: -100 }}
             animate={{ y: 0 }}
             transition={{ duration: 0.5 }}
@@ -91,7 +90,7 @@ export function Navbar() {
                 <div className="flex items-center justify-between h-16 md:h-20">
                     {/* Logo */}
                     <Link href="/" className="flex items-center space-x-2">
-                        <div className="text-2xl font-bold bg-gradient-to-r from-primary to-blue-600 bg-clip-text text-transparent">
+                        <div className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
                             mdcatExpert
                         </div>
                     </Link>
@@ -102,7 +101,7 @@ export function Navbar() {
                             <button
                                 key={link.href}
                                 onClick={() => scrollToSection(link.href)}
-                                className={`text-sm font-medium transition-colors hover:text-primary ${activeSection === link.href ? 'text-primary' : 'text-gray-700'
+                                className={`text-sm font-medium transition-colors hover:text-purple-600 ${activeSection === link.href ? 'text-purple-600 font-bold' : 'text-gray-700'
                                     }`}
                             >
                                 {link.label}
@@ -113,10 +112,10 @@ export function Navbar() {
                     {/* Desktop CTA */}
                     <div className="hidden md:flex items-center space-x-4">
                         <Link href="/login">
-                            <Button variant="ghost">Login</Button>
+                            <Button variant="outline" className="bg-white border-2 border-gray-800 text-gray-800 hover:bg-gray-50">Login</Button>
                         </Link>
                         <Link href="/register">
-                            <Button>Get Started Free</Button>
+                            <Button className="bg-purple-600 hover:bg-purple-700 text-white">Get Started Free</Button>
                         </Link>
                     </div>
 
@@ -147,8 +146,8 @@ export function Navbar() {
                                     key={link.href}
                                     onClick={() => scrollToSection(link.href)}
                                     className={`block w-full text-left px-4 py-2 rounded-md text-sm font-medium transition-colors ${activeSection === link.href
-                                            ? 'bg-primary/10 text-primary'
-                                            : 'text-gray-700 hover:bg-gray-100'
+                                        ? 'bg-purple-100 text-purple-600 font-bold'
+                                        : 'text-gray-700 hover:bg-gray-100'
                                         }`}
                                 >
                                     {link.label}

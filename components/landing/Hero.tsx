@@ -3,40 +3,28 @@
 // ============================================================================
 // Hero Section Component
 // ============================================================================
-// Above-the-fold hero with compelling CTAs and animations
+// Simplified, honest hero section without fake stats
 // ============================================================================
 
 import { motion } from 'framer-motion'
 import Link from 'next/link'
-import { ArrowRight, Play } from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { fadeInUp, staggerContainer, staggerItem } from '@/lib/animations'
 
 export function Hero() {
     return (
-        <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-blue-50 via-white to-purple-50 pt-20">
-            {/* Animated Background Elements */}
+        <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-blue-50 via-white to-blue-50 pt-20">
+            {/* Simplified Background Elements */}
             <div className="absolute inset-0 overflow-hidden">
                 <motion.div
-                    className="absolute top-20 left-10 w-72 h-72 bg-blue-200 rounded-full mix-blend-multiply filter blur-xl opacity-70"
+                    className="absolute top-20 left-10 w-72 h-72 bg-blue-200 rounded-full mix-blend-multiply filter blur-xl opacity-40"
                     animate={{
-                        x: [0, 100, 0],
-                        y: [0, 50, 0],
+                        x: [0, 50, 0],
+                        y: [0, 30, 0],
                     }}
                     transition={{
                         duration: 20,
-                        repeat: Infinity,
-                        ease: 'easeInOut',
-                    }}
-                />
-                <motion.div
-                    className="absolute top-40 right-10 w-72 h-72 bg-purple-200 rounded-full mix-blend-multiply filter blur-xl opacity-70"
-                    animate={{
-                        x: [0, -100, 0],
-                        y: [0, 100, 0],
-                    }}
-                    transition={{
-                        duration: 25,
                         repeat: Infinity,
                         ease: 'easeInOut',
                     }}
@@ -53,8 +41,8 @@ export function Hero() {
                 <div className="max-w-4xl mx-auto text-center">
                     {/* Badge */}
                     <motion.div variants={staggerItem} className="inline-block mb-6">
-                        <span className="inline-flex items-center px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium">
-                            🎓 Free for All Students
+                        <span className="inline-flex items-center px-4 py-2 rounded-full bg-white border-2 border-blue-600 text-blue-600 text-sm font-medium shadow-sm">
+                            🎓 Try 10 Questions Free
                         </span>
                     </motion.div>
 
@@ -64,7 +52,7 @@ export function Hero() {
                         className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-gray-900 mb-6 leading-tight"
                     >
                         Ace Your{' '}
-                        <span className="bg-gradient-to-r from-primary to-blue-600 bg-clip-text text-transparent">
+                        <span className="text-blue-600">
                             MDCAT
                         </span>{' '}
                         with Confidence
@@ -75,8 +63,8 @@ export function Hero() {
                         variants={staggerItem}
                         className="text-lg sm:text-xl md:text-2xl text-gray-600 mb-10 max-w-3xl mx-auto"
                     >
-                        Master MDCAT with AI-powered quizzes, real-time analytics, and thousands of practice
-                        questions. Join thousands of students achieving their medical school dreams.
+                        Practice MDCAT questions with instant feedback. No signup required to try.
+                        Create a free account to track your progress and unlock unlimited practice.
                     </motion.p>
 
                     {/* CTAs */}
@@ -84,36 +72,20 @@ export function Hero() {
                         variants={staggerItem}
                         className="flex flex-col sm:flex-row gap-4 justify-center items-center"
                     >
-                        <Link href="/register">
-                            <Button size="lg" className="text-lg px-8 py-6 group">
-                                Start Practicing Free
+                        <Link href="/quiz">
+                            <Button size="lg" className="text-lg px-8 py-6 group bg-blue-600 hover:bg-blue-700 text-white">
+                                Try 10 Questions Free
                                 <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
                             </Button>
                         </Link>
-                        <Button size="lg" variant="secondary" className="text-lg px-8 py-6 group">
-                            <Play className="mr-2 group-hover:scale-110 transition-transform" size={20} />
-                            Watch Demo
-                        </Button>
+                        <Link href="/register">
+                            <Button size="lg" variant="outline" className="text-lg px-8 py-6 group bg-white hover:bg-gray-50 border-2 border-blue-600 text-blue-600">
+                                Create Free Account
+                            </Button>
+                        </Link>
                     </motion.div>
 
-                    {/* Stats */}
-                    <motion.div
-                        variants={staggerItem}
-                        className="mt-16 grid grid-cols-3 gap-8 max-w-2xl mx-auto"
-                    >
-                        <div>
-                            <div className="text-3xl md:text-4xl font-bold text-gray-900">10,000+</div>
-                            <div className="text-sm text-gray-600 mt-1">Practice Questions</div>
-                        </div>
-                        <div>
-                            <div className="text-3xl md:text-4xl font-bold text-gray-900">5,000+</div>
-                            <div className="text-sm text-gray-600 mt-1">Active Students</div>
-                        </div>
-                        <div>
-                            <div className="text-3xl md:text-4xl font-bold text-gray-900">95%</div>
-                            <div className="text-sm text-gray-600 mt-1">Success Rate</div>
-                        </div>
-                    </motion.div>
+                    {/* Removed fake stats - will show real data when available */}
                 </div>
             </motion.div>
 

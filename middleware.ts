@@ -42,11 +42,11 @@ export async function middleware(req: NextRequest) {
     const path = req.nextUrl.pathname
 
     // Public routes that don't require authentication
-    const publicRoutes = ['/', '/login', '/register', '/forgot-password', '/reset-password', '/auth/callback']
+    const publicRoutes = ['/', '/login', '/register', '/forgot-password', '/reset-password', '/auth/callback', '/quiz', '/leaderboard']
     const isPublicRoute = publicRoutes.some(route => path === route || path.startsWith('/auth/'))
 
-    // Protected routes that require authentication
-    const protectedRoutes = ['/dashboard', '/quiz', '/profile', '/leaderboard', '/admin']
+    // Protected routes that require authentication (removed /quiz and /leaderboard for guest access)
+    const protectedRoutes = ['/dashboard', '/profile', '/admin']
     const isProtectedRoute = protectedRoutes.some(route => path.startsWith(route))
 
     // Admin-only routes

@@ -1,15 +1,16 @@
 'use client'
 
 // ============================================================================
-// Registration Page
+// Registration Page - Simplified
 // ============================================================================
-// User registration with email/password and full validation
+// User registration without email verification for better conversion
 // ============================================================================
 
 import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
+import { resetGuestSession } from '@/lib/auth/guest-mode'
 import { validateSignupForm, type SignupFormData, type SignupFormErrors } from '@/lib/auth/validation'
 import { AUTH_CONFIG } from '@/lib/auth/config'
 import { Button } from '@/components/ui/button'
@@ -30,7 +31,6 @@ export default function RegisterPage() {
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target
         setFormData(prev => ({ ...prev, [name]: value }))
-        // Clear error for this field
         setErrors(prev => ({ ...prev, [name]: undefined }))
         setServerError(null)
     }
@@ -51,7 +51,7 @@ export default function RegisterPage() {
         try {
             const supabase = createClient()
 
-            // Sign up user
+            // Sign up user with email confirmation disabled
             const { data, error } = await supabase.auth.signUp({
                 email: formData.email,
                 password: formData.password,
@@ -64,7 +64,6 @@ export default function RegisterPage() {
             })
 
             if (error) {
-                // Handle specific error cases
                 if (error.message.includes('already registered')) {
                     setServerError('An account with this email already exists')
                 } else {
@@ -74,8 +73,11 @@ export default function RegisterPage() {
             }
 
             if (data.user) {
-                // Redirect to verification page
-                router.push(AUTH_CONFIG.redirects.afterSignup)
+                // Clear guest session data
+                resetGuestSession()
+
+                // Redirect directly to dashboard
+                router.push(AUTH_CONFIG.redirects.afterLogin)
             }
         } catch (error) {
             setServerError('An unexpected error occurred. Please try again.')
@@ -95,7 +97,7 @@ export default function RegisterPage() {
                     </h2>
                     <p className="mt-2 text-center text-sm text-gray-600">
                         Already have an account?{' '}
-                        <Link href="/login" className="font-medium text-primary hover:text-primary/80">
+                        <Link href="/login" className="font-medium text-blue-600 hover:text-blue-700">
                             Sign in
                         </Link>
                     </p>
@@ -129,7 +131,7 @@ export default function RegisterPage() {
                                 value={formData.fullName}
                                 onChange={handleChange}
                                 className={`mt-1 appearance-none relative block w-full px-3 py-2 border ${errors.fullName ? 'border-red-300' : 'border-gray-300'
-                                    } placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-primary focus:border-primary focus:z-10 sm:text-sm`}
+                                    } placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-blue-600 focus:border-blue-600 focus:z-10 sm:text-sm`}
                                 placeholder="John Doe"
                             />
                             {errors.fullName && (
@@ -151,7 +153,7 @@ export default function RegisterPage() {
                                 value={formData.email}
                                 onChange={handleChange}
                                 className={`mt-1 appearance-none relative block w-full px-3 py-2 border ${errors.email ? 'border-red-300' : 'border-gray-300'
-                                    } placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-primary focus:border-primary focus:z-10 sm:text-sm`}
+                                    } placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-blue-600 focus:border-blue-600 sm:text-sm`}
                                 placeholder="you@example.com"
                             />
                             {errors.email && <p className="mt-1 text-sm text-red-600">{errors.email}</p>}
@@ -171,7 +173,7 @@ export default function RegisterPage() {
                                 value={formData.password}
                                 onChange={handleChange}
                                 className={`mt-1 appearance-none relative block w-full px-3 py-2 border ${errors.password ? 'border-red-300' : 'border-gray-300'
-                                    } placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-primary focus:border-primary focus:z-10 sm:text-sm`}
+                                    } placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-blue-600 focus:border-blue-600 focus:z-10 sm:text-sm`}
                                 placeholder="••••••••"
                             />
                             {errors.password && (
@@ -197,7 +199,7 @@ export default function RegisterPage() {
                                 value={formData.confirmPassword}
                                 onChange={handleChange}
                                 className={`mt-1 appearance-none relative block w-full px-3 py-2 border ${errors.confirmPassword ? 'border-red-300' : 'border-gray-300'
-                                    } placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-primary focus:border-primary focus:z-10 sm:text-sm`}
+                                    } placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-blue-600 focus:border-blue-600 focus:z-10 sm:text-sm`}
                                 placeholder="••••••••"
                             />
                             {errors.confirmPassword && (
@@ -211,7 +213,7 @@ export default function RegisterPage() {
                         <Button
                             type="submit"
                             disabled={isLoading}
-                            className="w-full flex justify-center py-2 px-4"
+                            className="w-full flex justify-center py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white"
                         >
                             {isLoading ? 'Creating account...' : 'Create account'}
                         </Button>
@@ -220,11 +222,11 @@ export default function RegisterPage() {
                     {/* Terms */}
                     <p className="text-xs text-center text-gray-600">
                         By creating an account, you agree to our{' '}
-                        <Link href="/terms" className="text-primary hover:text-primary/80">
+                        <Link href="/terms" className="text-blue-600 hover:text-blue-700">
                             Terms of Service
                         </Link>{' '}
                         and{' '}
-                        <Link href="/privacy" className="text-primary hover:text-primary/80">
+                        <Link href="/privacy" className="text-blue-600 hover:text-blue-700">
                             Privacy Policy
                         </Link>
                     </p>

@@ -62,14 +62,14 @@ export default function LandingPage() {
       {/* Mid-page CTA */}
       <CTASection
         title="Ready to Start Your MDCAT Journey?"
-        description="Join thousands of students who are already preparing smarter with mdcatExpert. Get started today - it's completely free!"
+        description="Try 10 questions free, no signup required. Create a free account to unlock unlimited practice and track your progress."
         primaryCTA={{
-          text: 'Start Practicing Now',
-          href: '/register',
+          text: 'Try Free Questions',
+          href: '/quiz',
         }}
         secondaryCTA={{
-          text: 'Explore Features',
-          href: '#features',
+          text: 'Create Free Account',
+          href: '/register',
         }}
       />
 
@@ -81,10 +81,10 @@ export default function LandingPage() {
       {/* Final CTA */}
       <CTASection
         title="Your Medical School Journey Starts Here"
-        description="Don't let MDCAT preparation overwhelm you. Start practicing with mdcatExpert today and join the ranks of successful medical students."
+        description="Start practicing MDCAT questions today. No credit card required. No hidden fees. Just quality practice questions."
         primaryCTA={{
-          text: 'Get Started Free',
-          href: '/register',
+          text: 'Start Practicing Now',
+          href: '/quiz',
         }}
         variant="secondary"
       />
